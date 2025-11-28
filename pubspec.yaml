@@ -16,7 +16,7 @@ dependencies:
   go_router: ^17.0.0
   flutter_bloc: ^9.1.1
   flutter_masked_text2: ^0.9.1
-  device_info_plus: ^12.3.0
+  device_info_plus: ^10.0.0
 
 dev_dependencies:
   flutter_test:
