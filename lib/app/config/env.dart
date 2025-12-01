@@ -25,4 +25,3 @@ class Env {
   static bool get isProduction => false;
   static bool get isDevelopment => true;
 }
-
