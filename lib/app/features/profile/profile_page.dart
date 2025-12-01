@@ -18,6 +18,12 @@ class ProfilePage extends StatelessWidget {
       builder: (context, settings) {
         final lang = settings.languageCode;
         return Scaffold(
+          appBar: AppBar(
+            leading: BackButton(onPressed: () => context.pop()),
+            title: const Text('Perfil'),
+            backgroundColor: Theme.of(context).colorScheme.primary,
+            foregroundColor: Colors.white,
+          ),
           body: ResponsivePageContainer(
             child: SingleChildScrollView(
               child: Column(
@@ -28,6 +34,14 @@ class ProfilePage extends StatelessWidget {
                       'assets/icons/icon.png',
                       width: 140,
                       height: 140,
+                    ),
+                  ),
+                  const SizedBox(height: 12),
+                  Center(
+                    child: OutlinedButton.icon(
+                      icon: const Icon(Icons.edit),
+                      label: const Text('Editar perfil'),
+                      onPressed: () => context.go('/profile/edit'),
                     ),
                   ),
                   const SizedBox(height: 16),
@@ -83,8 +97,8 @@ class ProfilePage extends StatelessWidget {
                     onChanged: (code) {
                       if (code != null) {
                         context.read<SettingsBloc>().add(
-                          ChangeLanguageEvent(code),
-                        );
+                              ChangeLanguageEvent(code),
+                            );
                       }
                     },
                   ),

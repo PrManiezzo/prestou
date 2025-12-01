@@ -28,6 +28,7 @@ class _CreateAdvertisementPageState extends State<CreateAdvertisementPage> {
   final _descriptionController = TextEditingController();
   final _priceController = TextEditingController();
   int? _selectedCategoryId;
+  final List<String> _mockImages = [];
 
   @override
   void initState() {
@@ -90,6 +91,7 @@ class _CreateAdvertisementPageState extends State<CreateAdvertisementPage> {
       ],
       child: Scaffold(
         appBar: AppBar(
+          leading: BackButton(onPressed: () => context.pop()),
           title: const Text('Criar Anúncio'),
           backgroundColor: Theme.of(context).colorScheme.primary,
           foregroundColor: Colors.white,
@@ -175,19 +177,132 @@ class _CreateAdvertisementPageState extends State<CreateAdvertisementPage> {
 
                   // Image upload section
                   Card(
-                    child: Padding(
-                      padding: const EdgeInsets.all(16),
-                      child: Column(
-                        children: [
-                          const Icon(Icons.add_photo_alternate, size: 48),
-                          const SizedBox(height: 8),
-                          const Text('Adicionar imagens'),
-                          const SizedBox(height: 4),
-                          Text(
-                            'Funcionalidade em desenvolvimento',
-                            style: Theme.of(context).textTheme.bodySmall,
+                    elevation: 1,
+                    child: InkWell(
+                      onTap: () {
+                        setState(() {
+                          _mockImages.add(
+                            'https://via.placeholder.com/600x400.png?text=Imagem+Mockada',
+                          );
+                        });
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                              content: Text('Imagem mockada adicionada.')),
+                        );
+                      },
+                      borderRadius: BorderRadius.circular(12),
+                      child: Container(
+                        padding: const EdgeInsets.all(24),
+                        decoration: BoxDecoration(
+                          border: Border.all(
+                            color: Colors.grey[300]!,
+                            style: BorderStyle.solid,
+                            width: 2,
                           ),
-                        ],
+                          borderRadius: BorderRadius.circular(12),
+                        ),
+                        child: Column(
+                          children: [
+                            Icon(
+                              Icons.add_photo_alternate,
+                              size: 48,
+                              color: Theme.of(context).colorScheme.primary,
+                            ),
+                            const SizedBox(height: 12),
+                            Text(
+                              'Adicionar imagens',
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleMedium
+                                  ?.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                  ),
+                            ),
+                            const SizedBox(height: 8),
+                            Container(
+                              padding: const EdgeInsets.symmetric(
+                                  horizontal: 12, vertical: 6),
+                              decoration: BoxDecoration(
+                                color: Colors.orange.withOpacity(0.1),
+                                borderRadius: BorderRadius.circular(12),
+                              ),
+                              child: Text(
+                                'Em desenvolvimento',
+                                style: TextStyle(
+                                  fontSize: 12,
+                                  color: Colors.orange,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                            ),
+                            if (_mockImages.isNotEmpty) ...[
+                              const SizedBox(height: 16),
+                              Align(
+                                alignment: Alignment.centerLeft,
+                                child: Text(
+                                  'Pré-visualização',
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .titleSmall
+                                      ?.copyWith(fontWeight: FontWeight.bold),
+                                ),
+                              ),
+                              const SizedBox(height: 8),
+                              Wrap(
+                                spacing: 8,
+                                runSpacing: 8,
+                                children:
+                                    _mockImages.asMap().entries.map((entry) {
+                                  final idx = entry.key;
+                                  final url = entry.value;
+                                  return Stack(
+                                    children: [
+                                      ClipRRect(
+                                        borderRadius: BorderRadius.circular(8),
+                                        child: Image.network(
+                                          url,
+                                          width: 90,
+                                          height: 90,
+                                          fit: BoxFit.cover,
+                                          errorBuilder: (c, e, s) => Container(
+                                            width: 90,
+                                            height: 90,
+                                            color: Colors.grey[200],
+                                            child:
+                                                const Icon(Icons.broken_image),
+                                          ),
+                                        ),
+                                      ),
+                                      Positioned(
+                                        top: 4,
+                                        right: 4,
+                                        child: InkWell(
+                                          onTap: () {
+                                            setState(() {
+                                              _mockImages.removeAt(idx);
+                                            });
+                                          },
+                                          child: Container(
+                                            padding: const EdgeInsets.all(4),
+                                            decoration: const BoxDecoration(
+                                              color: Colors.black54,
+                                              shape: BoxShape.circle,
+                                            ),
+                                            child: const Icon(
+                                              Icons.close,
+                                              size: 14,
+                                              color: Colors.white,
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                    ],
+                                  );
+                                }).toList(),
+                              ),
+                            ],
+                          ],
+                        ),
                       ),
                     ),
                   ),

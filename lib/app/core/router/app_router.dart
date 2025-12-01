@@ -3,6 +3,7 @@ import 'package:go_router/go_router.dart';
 import 'package:prestou/app/features/home/home_page.dart';
 import 'package:prestou/app/features/auth/presentation/pages/login_page.dart';
 import 'package:prestou/app/features/profile/profile_page.dart';
+import 'package:prestou/app/features/profile/edit_profile_page.dart';
 import 'package:prestou/app/features/auth/presentation/pages/recover_password_page.dart';
 import 'package:prestou/app/features/auth/presentation/pages/confirm_password_page.dart';
 import 'package:prestou/app/features/auth/presentation/pages/register_page.dart';
@@ -12,9 +13,9 @@ import 'package:prestou/app/features/splash/splash_page.dart';
 import 'package:prestou/app/features/landing/landing_page.dart';
 import 'package:prestou/app/features/dashboard/dashboard_page.dart';
 import 'package:prestou/app/features/advertisements/presentation/pages/categories_page.dart';
-import 'package:prestou/app/features/advertisements/presentation/pages/advertisements_list_page.dart';
 import 'package:prestou/app/features/advertisements/presentation/pages/advertisement_detail_page.dart';
 import 'package:prestou/app/features/advertisements/presentation/pages/create_advertisement_page.dart';
+import 'package:prestou/app/features/advertisements/presentation/pages/advertisements_list_page.dart';
 
 final appRouter = GoRouter(
   // Se for web inicia na landing, caso contrário mantém splash
@@ -50,6 +51,9 @@ final appRouter = GoRouter(
       builder: (context, state) => const DashboardPage(),
     ),
     GoRoute(path: '/profile', builder: (context, state) => const ProfilePage()),
+    GoRoute(
+        path: '/profile/edit',
+        builder: (context, state) => const EditProfilePage()),
 
     // Advertisement routes
     GoRoute(

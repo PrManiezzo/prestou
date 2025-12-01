@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:go_router/go_router.dart';
 import 'package:prestou/app/features/advertisements/data/models/advertisement.dart';
 import 'package:prestou/app/features/advertisements/data/models/advertisement_image.dart';
 import 'package:prestou/app/features/advertisements/data/repositories/advertisement_image_repository.dart';
@@ -61,6 +62,7 @@ class _AdvertisementDetailPageState extends State<AdvertisementDetailPage> {
 
     return Scaffold(
       appBar: AppBar(
+        leading: BackButton(onPressed: () => context.pop()),
         title: const Text('Detalhes do Anúncio'),
         backgroundColor: Theme.of(context).colorScheme.primary,
         foregroundColor: Colors.white,

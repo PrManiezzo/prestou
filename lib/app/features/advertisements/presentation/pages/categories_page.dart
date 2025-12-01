@@ -14,6 +14,7 @@ class CategoriesPage extends StatelessWidget {
       create: (_) => CategoryBloc()..add(LoadCategories()),
       child: Scaffold(
         appBar: AppBar(
+          leading: BackButton(onPressed: () => context.pop()),
           title: const Text('Categorias'),
           backgroundColor: Theme.of(context).colorScheme.primary,
           foregroundColor: Colors.white,
@@ -72,40 +73,57 @@ class CategoriesPage extends StatelessWidget {
                 itemCount: state.categories.length,
                 itemBuilder: (context, index) {
                   final category = state.categories[index];
+                  final colors = [
+                    Colors.blue,
+                    Colors.green,
+                    Colors.orange,
+                    Colors.purple,
+                    Colors.red,
+                    Colors.teal
+                  ];
+                  final color = colors[index % colors.length];
+
                   return Card(
                     elevation: 2,
                     child: InkWell(
                       onTap: () {
                         context.go('/advertisements/category/${category.id}');
                       },
-                      child: Padding(
+                      borderRadius: BorderRadius.circular(12),
+                      child: Container(
                         padding: const EdgeInsets.all(16),
+                        decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(12),
+                          gradient: LinearGradient(
+                            begin: Alignment.topLeft,
+                            end: Alignment.bottomRight,
+                            colors: [
+                              color.withOpacity(0.1),
+                              color.withOpacity(0.05),
+                            ],
+                          ),
+                        ),
                         child: Column(
                           mainAxisAlignment: MainAxisAlignment.center,
                           children: [
                             Icon(
                               Icons.category,
-                              size: 48,
-                              color: Theme.of(context).colorScheme.primary,
+                              size: 40,
+                              color: color,
                             ),
                             const SizedBox(height: 12),
                             Text(
                               category.name,
-                              style: Theme.of(context).textTheme.titleMedium,
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .titleMedium
+                                  ?.copyWith(
+                                    fontWeight: FontWeight.bold,
+                                  ),
                               textAlign: TextAlign.center,
                               maxLines: 2,
                               overflow: TextOverflow.ellipsis,
                             ),
-                            if (category.description != null) ...[
-                              const SizedBox(height: 4),
-                              Text(
-                                category.description!,
-                                style: Theme.of(context).textTheme.bodySmall,
-                                textAlign: TextAlign.center,
-                                maxLines: 1,
-                                overflow: TextOverflow.ellipsis,
-                              ),
-                            ],
                           ],
                         ),
                       ),
@@ -118,11 +136,14 @@ class CategoriesPage extends StatelessWidget {
             return const SizedBox.shrink();
           },
         ),
-        floatingActionButton: FloatingActionButton(
+        floatingActionButton: FloatingActionButton.extended(
           onPressed: () {
             context.go('/advertisements/new');
           },
-          child: const Icon(Icons.add),
+          icon: const Icon(Icons.add),
+          label: const Text('Novo Anúncio'),
+          backgroundColor: Theme.of(context).colorScheme.primary,
+          foregroundColor: Colors.white,
         ),
       ),
     );
