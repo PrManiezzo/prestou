@@ -10,6 +10,11 @@ import 'package:prestou/app/features/auth/presentation/pages/confirm_account_pag
 import 'package:prestou/app/features/auth/presentation/pages/resend_code_page.dart';
 import 'package:prestou/app/features/splash/splash_page.dart';
 import 'package:prestou/app/features/landing/landing_page.dart';
+import 'package:prestou/app/features/dashboard/dashboard_page.dart';
+import 'package:prestou/app/features/advertisements/presentation/pages/categories_page.dart';
+import 'package:prestou/app/features/advertisements/presentation/pages/advertisements_list_page.dart';
+import 'package:prestou/app/features/advertisements/presentation/pages/advertisement_detail_page.dart';
+import 'package:prestou/app/features/advertisements/presentation/pages/create_advertisement_page.dart';
 
 final appRouter = GoRouter(
   // Se for web inicia na landing, caso contrário mantém splash
@@ -40,6 +45,43 @@ final appRouter = GoRouter(
           ResendCodePage(initialWhatsapp: state.extra as String?),
     ),
     GoRoute(path: '/home', builder: (context, state) => const HomePage()),
+    GoRoute(
+      path: '/dashboard',
+      builder: (context, state) => const DashboardPage(),
+    ),
     GoRoute(path: '/profile', builder: (context, state) => const ProfilePage()),
+
+    // Advertisement routes
+    GoRoute(
+      path: '/advertisements/categories',
+      builder: (context, state) => const CategoriesPage(),
+    ),
+    GoRoute(
+      path: '/advertisements/new',
+      builder: (context, state) {
+        final categoryId = state.uri.queryParameters['categoryId'];
+        return CreateAdvertisementPage(
+          categoryId: categoryId != null ? int.tryParse(categoryId) : null,
+        );
+      },
+    ),
+    GoRoute(
+      path: '/advertisements/category/:categoryId',
+      builder: (context, state) {
+        final categoryId = int.parse(state.pathParameters['categoryId']!);
+        final categoryName = state.uri.queryParameters['name'] ?? 'Anúncios';
+        return AdvertisementsListPage(
+          categoryId: categoryId,
+          categoryName: categoryName,
+        );
+      },
+    ),
+    GoRoute(
+      path: '/advertisements/:id',
+      builder: (context, state) {
+        final id = int.parse(state.pathParameters['id']!);
+        return AdvertisementDetailPage(advertisementId: id);
+      },
+    ),
   ],
 );
