@@ -20,23 +20,27 @@ class DioClient {
           if (token != null) {
             options.headers['Authorization'] = 'Bearer $token';
           }
-          
+
           if (Env.enableDebugLogs) {
-            print('[${Env.currentEnvironment.toUpperCase()}] ${options.method} ${options.uri}');
+            print(
+                '[${Env.currentEnvironment.toUpperCase()}] ${options.method} ${options.uri}');
           }
-          
+
           return handler.next(options);
         },
         onResponse: (response, handler) {
           if (Env.enableDebugLogs) {
-            print('[${Env.currentEnvironment.toUpperCase()}] Response: ${response.statusCode}');
+            print(
+                '[${Env.currentEnvironment.toUpperCase()}] Response: ${response.statusCode}');
           }
           return handler.next(response);
         },
         onError: (error, handler) {
           if (Env.enableDebugLogs) {
-            print('[${Env.currentEnvironment.toUpperCase()}] Error: ${error.message}');
-            print('[${Env.currentEnvironment.toUpperCase()}] Response: ${error.response?.data}');
+            print(
+                '[${Env.currentEnvironment.toUpperCase()}] Error: ${error.message}');
+            print(
+                '[${Env.currentEnvironment.toUpperCase()}] Response: ${error.response?.data}');
           }
           return handler.next(error);
         },

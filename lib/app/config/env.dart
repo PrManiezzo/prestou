@@ -70,6 +70,8 @@ class Env {
 
   static String get currentEnvironment => environment;
 
-  static bool get isProduction => environment == 'prd' || environment == 'production';
-  static bool get isDevelopment => environment == 'dev' || environment == 'development';
+  static bool get isProduction =>
+      environment == 'prd' || environment == 'production';
+  static bool get isDevelopment =>
+      environment == 'dev' || environment == 'development';
 }
